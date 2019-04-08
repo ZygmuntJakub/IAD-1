@@ -11,10 +11,10 @@ public class MLP {
 		orBias = true;
 		layers = new Layer[3];
 		Parameters.learningRate = 0.1;
-		Parameters.momentum = 0.6;
+		Parameters.momentum = 0.0;
 		layers[0] = new Layer(4, 0);
-		layers[1] = new Layer(3, 4);
-		layers[2] = new Layer(4, 3);
+		layers[1] = new Layer(2, 4);
+		layers[2] = new Layer(4, 2);
 	}
 
 
@@ -46,7 +46,7 @@ public class MLP {
 		return result;
 	}
 
-	public void backPropagate(double [] outputs, double []inputs) {
+	public double backPropagate(double [] outputs, double []inputs) {
 		double[] newOutputs = execute(inputs);
 		double error = 0.0;
 		newError = 0.0;
@@ -86,10 +86,10 @@ public class MLP {
 
 			newError = 0.0;
 			for (int i = 0; i < outputs.length; i++) {
-				newError += Math.pow(newOutputs[i] - outputs[i], 2);
+				newError += (Math.pow(newOutputs[i] - outputs[i], 2))/2;
 			}
 
-			System.out.println(newError);
+			return newError;
 
 
 	}

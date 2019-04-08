@@ -6,23 +6,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.Random;
 
 public class Test {
-	public static Vector<Vector<Integer>> data;
+	public static double [][] data;
+	
+	public static double roundDouble(double value) {
+		double tmp = value;
+		tmp *= 1_00_0;
+		double result = Math.round(tmp);
+		return result / 10000;
+	}
 	
 	public static void getData() throws IOException {
-		data = new Vector<>();
+		data = new double[4][4];
 		InputStream is = new FileInputStream("transformation.txt");
 		BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 		String line = buf.readLine();
+		int i = 0;
 		while (line != null) {
-			Vector<Integer> values = new Vector<>();
-			values.add(Integer.parseInt(line.split(" ")[0]));
-			values.add(Integer.parseInt(line.split(" ")[1]));
-			values.add(Integer.parseInt(line.split(" ")[2]));
-			values.add(Integer.parseInt(line.split(" ")[3]));
-			data.add(values);
+			data[i][0] = Integer.parseInt(line.split(" ")[0]);
+			data[i][1] = Integer.parseInt(line.split(" ")[1]);
+			data[i][2] = Integer.parseInt(line.split(" ")[2]);
+			data[i][3] = Integer.parseInt(line.split(" ")[3]);
+			i++;
 			line = buf.readLine();
 		}
 		buf.close();
@@ -30,33 +37,24 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 		MLP test  = new MLP(3);
-		double [] getData1 = {1, 0, 0, 0 };
-		double [] getData2 = {0, 1, 0, 0 };
-		double [] getData3 = {0, 0, 1, 0 };
-		double [] getData4 = {0, 0, 0, 1 };
 		
-		double backPropagateError = 10.0;
-		while(backPropagateError > 0.000001) {
-			backPropagateError = 0;
-			test.backPropagate(getData1, getData1);
-			backPropagateError += test.newError;
-			test.backPropagate(getData2, getData2);
-			backPropagateError += test.newError;
-			test.backPropagate(getData3, getData3);
-			backPropagateError += test.newError;
-			test.backPropagate(getData4, getData4);
-			backPropagateError += test.newError;
-			backPropagateError = backPropagateError / (2 * getData1.length);
+		getData();
+		Random generator = new Random(); 
+
+		int iteration = 0;
+		int j = 0;
+		double currentError = 0;
+		while(iteration < 500_00) {
+				j = generator.nextInt(4);
+				for(int i = 0 ; i < data.length ; i++) {
+					currentError = test.backPropagate(data[i], data[i]);
+				}
+				System.out.printf("%d;%f\n", iteration, currentError);
+				iteration++;
+			
 		}
-		System.out.println(Arrays.toString(test.execute(getData1)));
-		System.out.println(Arrays.toString(test.execute(getData2)));
-		System.out.println(Arrays.toString(test.execute(getData3)));
-		System.out.println(Arrays.toString(test.execute(getData4)));
-//		for (int i = 0; i < 250000; i++) {
-//			test.backPropagate();
-//			
-//		}
-//		System.out.println(test.execute());
+
+
 
 		
 	}

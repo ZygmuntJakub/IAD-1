@@ -5,11 +5,33 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Random;
 
-public class Test {
+public class TestTransformation {
 	public static double [][] data;
+	public static int [] randIterator;
+	static Random generator;
+	
+	public static int getRandIterator() {
+		generator = new Random(); 
+		int j = generator.nextInt(4);
+		boolean get = true;
+		while(get) {
+			if(randIterator[j] == 1) {
+				randIterator[j] = 0;
+				get = false;
+			}else {
+				j = generator.nextInt(4);
+			}
+		}
+		return j;
+		
+	}
+	public static void resetRandIterator() {
+		for(int i = 0 ; i < randIterator.length ; i++) {
+			randIterator[i] = 1;
+		}
+	}
 	
 	public static double roundDouble(double value) {
 		double tmp = value;
@@ -36,20 +58,23 @@ public class Test {
 	}
 
 	public static void main(String[] args) throws IOException {
-		MLP test  = new MLP(3);
+		MLP test  = new MLP(1, 4);
 		
 		getData();
-		Random generator = new Random(); 
+		
 
 		int iteration = 0;
-		int j = 0;
+		int iterator = 0;
 		double currentError = 0;
-		while(iteration < 500_00) {
-				j = generator.nextInt(4);
-				for(int i = 0 ; i < data.length ; i++) {
-					currentError = test.backPropagate(data[i], data[i]);
+		randIterator = new int[4];
+		resetRandIterator();
+		while(iteration < 10_001) {
+				for(int i = 0 ; i < data[0].length ; i++) {
+					iterator = getRandIterator();
+					currentError = test.backPropagate(data[iterator], data[iterator]);
 				}
 				System.out.printf("%d;%f\n", iteration, currentError);
+				resetRandIterator();
 				iteration++;
 			
 		}

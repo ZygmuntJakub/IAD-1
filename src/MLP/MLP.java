@@ -7,14 +7,15 @@ public class MLP {
 	public boolean orBias;
 	public double newError = 1.0;
 
-	public MLP(int numberOfHiddenNeurons) throws IOException {
+	public MLP(int numberOfHiddenNeurons, int numberOfIO) throws IOException {
+		int p = numberOfHiddenNeurons;
 		orBias = true;
 		layers = new Layer[3];
 		Parameters.learningRate = 0.1;
 		Parameters.momentum = 0.0;
-		layers[0] = new Layer(4, 0);
-		layers[1] = new Layer(2, 4);
-		layers[2] = new Layer(4, 2);
+		layers[0] = new Layer(numberOfIO, 0);
+		layers[1] = new Layer(p, numberOfIO);
+		layers[2] = new Layer(numberOfIO, p);
 	}
 
 

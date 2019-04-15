@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Random;
 
 public class TestAprox {
@@ -56,10 +57,9 @@ public class TestAprox {
 	}
 
 	public static void main(String[] args) throws IOException {
-		MLP test  = new MLP(17, 1);
+		MLP_APROX test  = new MLP_APROX(17, 1);
 		
 		getData1();
-		
 
 		int iteration = 0;
 		int iterator = 0;
@@ -69,18 +69,17 @@ public class TestAprox {
 		while(iteration < 10_001) {
 				for(int i = 0 ; i < data1.length ; i++) {
 					iterator = getRandIterator(81);
-					currentError = test.backPropagate(data1[iterator], data1[iterator]);
+					currentError = test.backPropagate(data1[iterator][1], data1[iterator][0]);
 				}
 				//System.out.printf("%f\n", currentError);
-				resetRandIterator();
 				iteration++;
+				resetRandIterator();
 			
 		}
-		double []x_value = new double[1];
-		x_value[0] = -4;
-		while(x_value[0] <= 4.0) {
-			System.out.println(x_value[0] + ";" + test.execute(x_value)[0]);
-			x_value[0] += 0.001;
+		double x_value = -4.0;
+		while(x_value <= 4.0) {
+			System.out.println(x_value + ";" + test.execute(x_value));
+			x_value += 0.001;
 		}
 
 

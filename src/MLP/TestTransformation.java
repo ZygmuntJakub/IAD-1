@@ -69,12 +69,14 @@ public class TestTransformation {
 		randIterator = new int[4];
 		resetRandIterator();
 		while(iteration < 10_001) {
+			currentError = 0.0;
 				for(int i = 0 ; i < data[0].length ; i++) {
 					iterator = getRandIterator();
-					currentError = test.backPropagate(data[iterator], data[iterator]);
+					currentError += test.backPropagate(data[iterator], data[iterator]);
 				}
-				System.out.printf("%d;%f\n", iteration, currentError);
+				System.out.printf("%d;%f\n", iteration, currentError/4.0);
 				resetRandIterator();
+				
 				iteration++;
 			
 		}

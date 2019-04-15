@@ -9,7 +9,7 @@ public class MLP {
 
 	public MLP(int numberOfHiddenNeurons, int numberOfIO) throws IOException {
 		int p = numberOfHiddenNeurons;
-		orBias = true;
+		orBias = false;
 		layers = new Layer[3];
 		Parameters.learningRate = 0.1;
 		Parameters.momentum = 0.0;

@@ -58,7 +58,7 @@ public class TestTransformation {
 	}
 
 	public static void main(String[] args) throws IOException {
-		MLP test  = new MLP(1, 4);
+		MLP test  = new MLP(2, 4);
 		
 		getData();
 		

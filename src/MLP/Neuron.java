@@ -1,12 +1,13 @@
 package MLP;
 
 public class Neuron {
-	public double		output;
-	public double[]		weights;
-	public double		bias;
-	public double		delta;
-	public double[] 	oldDelta;
-	
+	public double output;
+	public double[] weights;
+	public double bias;
+	public double delta;
+	public double[] oldDelta;
+	public double a;
+
 	public Neuron(int numberOfInputs) {
 		weights = new double[numberOfInputs];
 		oldDelta = new double[numberOfInputs];
@@ -16,12 +17,12 @@ public class Neuron {
 			weights[i] = randomWeight();
 		}
 		bias = randomWeight();
-		
-		for(int i = 0 ; i < oldDelta.length ; i++) {
+
+		for (int i = 0; i < oldDelta.length; i++) {
 			oldDelta[i] = 0.0;
 		}
 	}
-	
+
 	private double randomWeight() {
 		return Math.random() * 2 - 1;
 	}

@@ -8,38 +8,32 @@ import java.io.InputStreamReader;
 import java.util.Random;
 
 public class TestTransformation {
-	public static double [][] data;
-	public static int [] randIterator;
+	public static double[][] data;
+	public static int[] randIterator;
 	static Random generator;
-	
+
 	public static int getRandIterator() {
-		generator = new Random(); 
+		generator = new Random();
 		int j = generator.nextInt(4);
 		boolean get = true;
-		while(get) {
-			if(randIterator[j] == 1) {
+		while (get) {
+			if (randIterator[j] == 1) {
 				randIterator[j] = 0;
 				get = false;
-			}else {
+			} else {
 				j = generator.nextInt(4);
 			}
 		}
 		return j;
-		
+
 	}
+
 	public static void resetRandIterator() {
-		for(int i = 0 ; i < randIterator.length ; i++) {
+		for (int i = 0; i < randIterator.length; i++) {
 			randIterator[i] = 1;
 		}
 	}
-	
-	public static double roundDouble(double value) {
-		double tmp = value;
-		tmp *= 1_00_0;
-		double result = Math.round(tmp);
-		return result / 10000;
-	}
-	
+
 	public static void getData() throws IOException {
 		data = new double[4][4];
 		InputStream is = new FileInputStream("transformation.txt");
@@ -58,31 +52,46 @@ public class TestTransformation {
 	}
 
 	public static void main(String[] args) throws IOException {
-		MLP test  = new MLP(3, 4);
-		
+		MLP test = new MLP(2, 4);
+
 		getData();
-		
 
 		int iteration = 0;
 		int iterator = 0;
 		double currentError = 0;
 		randIterator = new int[4];
 		resetRandIterator();
-		while(iteration < 10_001) {
+		do {
 			currentError = 0.0;
-				for(int i = 0 ; i < data[0].length ; i++) {
-					iterator = getRandIterator();
-					currentError += test.backPropagate(data[iterator], data[iterator]);
-				}
-				System.out.printf("%d;%f\n", iteration, currentError/4.0);
-				resetRandIterator();
-				
-				iteration++;
-			
-		}
+			for (int i = 0; i < data[0].length; i++) {
+				iterator = getRandIterator();
+				currentError += test.backPropagate(data[iterator], data[iterator]);
+			}
+//				System.out.printf("%d;%f\n", iteration, currentError/4.0);
+			resetRandIterator();
+			iteration++;
+
+		} while (iteration < 100_000);
 
 
-
+		test.execute(data[0]);
+		System.out.println("1000");
+		System.out.println(test.layers[1].neurons[0].output);
+		System.out.println(test.layers[1].neurons[1].output);
 		
+		test.execute(data[1]);
+		System.out.println("0100");
+		System.out.println(test.layers[1].neurons[0].output);
+		System.out.println(test.layers[1].neurons[1].output);
+		
+		test.execute(data[2]);
+		System.out.println("0010");
+		System.out.println(test.layers[1].neurons[0].output);
+		System.out.println(test.layers[1].neurons[1].output);
+
+		test.execute(data[3]);
+		System.out.println("0001");
+		System.out.println(test.layers[1].neurons[0].output);
+		System.out.println(test.layers[1].neurons[1].output);
 	}
 }

@@ -37,9 +37,12 @@ public class MLP {
 					}
 					if (orBias)
 						newOutput += layers[k].neurons[i].bias;
+					layers[k].neurons[i].a = newOutput;
 					layers[k].neurons[i].output = SigmoidalFunction.sigmoid(newOutput);
+
 				}
 			}
+			
 			// wpisujemy do wektora wyliczone wartości wyjściowe
 			for (int i = 0; i < layers[2].size; i++) {
 				result[i] =  layers[2].neurons[i].output;
@@ -65,7 +68,7 @@ public class MLP {
 						newError += layers[k + 1].neurons[j].delta * layers[k + 1].neurons[j].weights[i];
 					}
 					layers[k].neurons[i].delta = newError
-							* SigmoidalFunction.sigmoidDerivative(layers[k].neurons[i].output);
+							* SigmoidalFunction.sigmoidDerivative(layers[k].neurons[i].a);
 				}
 				// aktualizacja wag
 				for (int i = 0; i < layers[k + 1].size; i++) {
